@@ -1,21 +1,18 @@
 package integration;
 
 import base.BaseTest;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.wildbit.java.postmark.client.ApiClient;
 import com.wildbit.java.postmark.client.Parameters;
 import com.wildbit.java.postmark.client.data.model.bounces.Bounce;
 import com.wildbit.java.postmark.client.data.model.bounces.BounceDump;
 import com.wildbit.java.postmark.client.data.model.bounces.Bounces;
 import com.wildbit.java.postmark.client.data.model.bounces.DeliveryStats;
-import com.wildbit.java.postmark.client.data.model.message.BaseMessageResponse;
 import com.wildbit.java.postmark.client.exception.InvalidMessageException;
 import com.wildbit.java.postmark.client.exception.PostmarkException;
-
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +27,7 @@ public class BounceTest extends BaseTest {
     void deliveryStats() throws PostmarkException, IOException {
         DeliveryStats deliveryStats = client.getDeliveryStats();
 
-        assertTrue(deliveryStats.getBounces().size() > 0);
+        assertEquals(true,deliveryStats.getBounces().size() > 0);
         assertNotNull(deliveryStats.getBounces().get(0).getName());
         assertNotNull(deliveryStats.getBounces().get(0).getCount());
     }
@@ -39,7 +36,7 @@ public class BounceTest extends BaseTest {
     void bounceList() throws PostmarkException, IOException {
         Bounces bounces = client.getBounces(Parameters.init().build("count", 5).build("offset", 0));
 
-        assertTrue(bounces.getTotalCount() > 0);
+        assertEquals(true,bounces.getTotalCount() > 0);
         assertNotNull(bounces.getBounces().get(0).getBouncedAt());
     }
 
@@ -52,7 +49,12 @@ public class BounceTest extends BaseTest {
     @Test
     void invalidBounceList() throws PostmarkException, IOException {
         Throwable exception = assertThrows(InvalidMessageException.class,
-                ()-> client.getBounces(Parameters.init().build("count", -1).build("offset", 0)));
+                new Executable() {
+                    @Override
+                    public void execute() throws Throwable {
+                        client.getBounces(Parameters.init().build("count", -1).build("offset", 0));
+                    }
+                });
 
     }
 

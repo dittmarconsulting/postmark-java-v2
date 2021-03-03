@@ -8,6 +8,8 @@ import java.util.*;
 
 import eu.medsea.mimeutil.MimeUtil;
 
+import javax.xml.bind.DatatypeConverter;
+
 /**
  * Base email message object
  */
@@ -209,7 +211,7 @@ public class BaseMessage {
 
     public void addHeader(String name, String value) {
         if (this.headers == null) {
-            setHeaders(new ArrayList<>());
+            setHeaders(new ArrayList<Header>());
         }
         this.headers.add(new Header(name,value));
     }
@@ -281,7 +283,7 @@ public class BaseMessage {
     public void addAttachment(String name, byte[] content, String contentType) {
         Map<String, String> attachment = new HashMap<>();
         attachment.put("Name", name);
-        attachment.put("Content", Base64.getEncoder().encodeToString(content));
+        attachment.put("Content", DatatypeConverter.printBase64Binary(content));
         attachment.put("ContentType", contentType);
 
         addAttachment(attachment);
@@ -298,7 +300,7 @@ public class BaseMessage {
     public void addAttachment(String name, byte[] content, String contentType, String contentId) {
         Map<String, String> attachment = new HashMap<>();
         attachment.put("Name", name);
-        attachment.put("Content", Base64.getEncoder().encodeToString(content));
+        attachment.put("Content", DatatypeConverter.printBase64Binary(content));
         attachment.put("ContentType", contentType);
         attachment.put("ContentId", contentId);
 
@@ -322,7 +324,8 @@ public class BaseMessage {
     }
 
     public void addAttachments(List<Map<String, String>> attachments) {
-        attachments.forEach(this::addAttachment);
+        for(Map<String,String> attachment : attachments)
+            addAttachment(attachment);
     }
 
     private byte[] readFileContent(String path) throws IOException {

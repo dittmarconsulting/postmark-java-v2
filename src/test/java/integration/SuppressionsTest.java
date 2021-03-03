@@ -19,7 +19,7 @@ public class SuppressionsTest extends BaseTest {
     void getSuppressions() throws PostmarkException, IOException {
         Suppressions suppressions = client.getSuppressions(defaultMessageStream);
 
-        assertTrue(suppressions.getSuppressions().size() >= 0);
+        assertEquals(true,suppressions.getSuppressions().size() >= 0);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class SuppressionsTest extends BaseTest {
         SuppressionStatuses suppressionStatuses = client.createSuppressions(defaultMessageStream,
                 new SuppressionEntries(addresses));
 
-        assertTrue(suppressionStatuses.getSuppressions().size() > 0);
+        assertEquals(true,suppressionStatuses.getSuppressions().size() > 0);
     }
 
     @Test
@@ -37,6 +37,6 @@ public class SuppressionsTest extends BaseTest {
         SuppressionStatuses suppressionStatuses = client.deleteSuppressions(defaultMessageStream,
                 new SuppressionEntries(addresses));
 
-        assertTrue(suppressionStatuses.getSuppressions().size() > 0);
+        assertEquals(true,suppressionStatuses.getSuppressions().size() > 0);
     }
 }

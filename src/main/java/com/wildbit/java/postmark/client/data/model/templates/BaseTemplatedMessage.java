@@ -3,6 +3,7 @@ package com.wildbit.java.postmark.client.data.model.templates;
 import com.wildbit.java.postmark.client.data.model.message.Header;
 import eu.medsea.mimeutil.MimeUtil;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,7 +30,7 @@ public class BaseTemplatedMessage {
     private List<Map<String, String>> attachments;
 
     public BaseTemplatedMessage() {
-        this.setAttachments(new ArrayList<>());
+        this.setAttachments(new ArrayList<Map<String,String>>());
         this.setInlineCss(false);
         this.setTemplateModel(new HashMap<>());
     }
@@ -197,7 +198,7 @@ public class BaseTemplatedMessage {
 
     public void addHeader(String name, String value) {
         if (this.headers == null) {
-            setHeaders(new ArrayList<>());
+            setHeaders(new ArrayList<Header>());
         }
         this.headers.add(new Header(name,value));
     }
@@ -268,7 +269,7 @@ public class BaseTemplatedMessage {
     public void addAttachment(String name, byte[] content, String contentType) {
         Map<String, String> attachment = new HashMap<>();
         attachment.put("Name", name);
-        attachment.put("Content", Base64.getEncoder().encodeToString(content));
+        attachment.put("Content", DatatypeConverter.printBase64Binary(content));
         attachment.put("ContentType", contentType);
 
         addAttachment(attachment);
@@ -285,7 +286,7 @@ public class BaseTemplatedMessage {
     public void addAttachment(String name, byte[] content, String contentType, String contentId) {
         Map<String, String> attachment = new HashMap<>();
         attachment.put("Name", name);
-        attachment.put("Content", Base64.getEncoder().encodeToString(content));
+        attachment.put("Content", DatatypeConverter.printBase64Binary(content));
         attachment.put("ContentType", contentType);
         attachment.put("ContentId", contentId);
 
@@ -309,7 +310,8 @@ public class BaseTemplatedMessage {
     }
 
     public void addAttachments(List<Map<String, String>> attachments) {
-        attachments.forEach(this::addAttachment);
+        for(Map<String,String > attachement : attachments)
+         addAttachment(attachement);
     }
 
     private byte[] readFileContent(String path) throws IOException {

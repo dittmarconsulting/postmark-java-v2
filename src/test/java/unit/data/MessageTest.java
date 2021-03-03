@@ -5,6 +5,7 @@ import base.BaseTest;
 import com.wildbit.java.postmark.client.data.DataHandler;
 import com.wildbit.java.postmark.client.data.model.message.Message;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.File;
 import java.io.IOException;
@@ -154,8 +155,13 @@ public class MessageTest extends BaseTest {
 
     @Test
     void attachmentException() throws IOException {
-        Message message = new Message();
-        assertThrows(java.nio.file.NoSuchFileException.class, () -> message.addAttachment("test"));
+        final Message message = new Message();
+        assertThrows(java.nio.file.NoSuchFileException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                message.addAttachment("test");
+            }
+        });
     }
 
     @Test
