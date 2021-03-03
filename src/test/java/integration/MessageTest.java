@@ -10,6 +10,8 @@ import com.wildbit.java.postmark.client.exception.InvalidMessageException;
 import com.wildbit.java.postmark.client.exception.PostmarkException;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -33,16 +35,26 @@ public class MessageTest extends BaseTest {
 
     @Test
     void invalidMessagetoSend() throws PostmarkException, IOException {
-        Message message = new Message("from@example.com", null, "Hello from Postmark!", "Hello body");
+        final Message message = new Message("from@example.com", null, "Hello from Postmark!", "Hello body");
 
-        Throwable exception = assertThrows(InvalidMessageException.class, () -> client.deliverMessage(message));
+        Throwable exception = assertThrows(InvalidMessageException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                client.deliverMessage(message);
+            }
+        });
         assertEquals("Zero recipients specified", exception.getMessage());
     }
 
     @Test
     void invalidApiToken() throws PostmarkException, IOException {
-        ApiClient client = Postmark.getApiClient("1991892", true);
-        Message message = new Message("from@example.com", "to@example.com", "Hello from Postmark!", "Hello body");
-        assertThrows(InvalidAPIKeyException.class, () -> client.deliverMessage(message));
+        final ApiClient client = Postmark.getApiClient("1991892", true);
+        final Message message = new Message("from@example.com", "to@example.com", "Hello from Postmark!", "Hello body");
+        assertThrows(InvalidAPIKeyException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                client.deliverMessage(message);
+            }
+        });
     }
 }

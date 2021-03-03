@@ -34,8 +34,8 @@ public class SendersTest extends BaseTest {
     @Test
     void list() throws PostmarkException, IOException {
         Signatures senders = client.getSenderSignatures(Parameters.init().build("count",6).build("offset",0));
-        assertTrue(senders.getTotalCount() > 0);
-        assertTrue(senders.getSenderSignatures().size() > 0);
+        assertEquals(true,senders.getTotalCount() > 0);
+        assertEquals(true,senders.getSenderSignatures().size() > 0);
 
     }
 
@@ -53,7 +53,7 @@ public class SendersTest extends BaseTest {
 
         SignatureDetails senderDetails = client.createSenderSignature(testSignatureObject());
         senderId = senderDetails.getId();
-        assertTrue(senderId instanceof Integer);
+        assertEquals(true,senderId instanceof Integer);
 
         client.deleteSenderSignature(senderId);
     }
@@ -62,7 +62,7 @@ public class SendersTest extends BaseTest {
     void deleteSignature() throws PostmarkException, IOException {
         SignatureDetails senderDetails = client.createSenderSignature(testSignatureObject());
         String response = client.deleteSenderSignature(senderDetails.getId());
-        assertTrue(response.contains("removed"));
+        assertEquals(true,response.contains("removed"));
     }
 
 

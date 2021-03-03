@@ -7,6 +7,7 @@ import com.wildbit.java.postmark.client.data.model.messages.*;
 import com.wildbit.java.postmark.client.exception.InvalidMessageException;
 import com.wildbit.java.postmark.client.exception.PostmarkException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.IOException;
 
@@ -24,7 +25,7 @@ public class MessagesTest extends BaseTest {
         OutboundMessages messages = client.getMessages(Parameters.init().build("count", 4).build("offset", 0));
 
         assertNotNull(messages.getMessages().get(0).getMessageId());
-        assertTrue(messages.getMessages().size() > 0);
+        assertEquals(true,messages.getMessages().size() > 0);
     }
 
     @Test
@@ -59,7 +60,7 @@ public class MessagesTest extends BaseTest {
     void listInbound() throws PostmarkException, IOException {
         InboundMessages inboundMessages = client.getInboundMessages(Parameters.init().build("count", 6).build("offset", 0));
 
-        assertTrue(inboundMessages.getInboundMessages().size() > 0);
+        assertEquals(true,inboundMessages.getInboundMessages().size() > 0);
     }
 
     @Test
@@ -73,6 +74,11 @@ public class MessagesTest extends BaseTest {
 
     @Test
     void exception() throws PostmarkException, IOException {
-        assertThrows(InvalidMessageException.class, () -> client.getMessages(Parameters.init().build("count", -4).build("offset", 0)));
+        assertThrows(InvalidMessageException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                client.getMessages(Parameters.init().build("count", -4).build("offset", 0));
+            }
+        });
     }
 }

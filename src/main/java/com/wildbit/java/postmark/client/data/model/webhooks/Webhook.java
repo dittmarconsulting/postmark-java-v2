@@ -40,7 +40,7 @@ public class Webhook {
 
     public void addHeader(String name, String value) {
         if (this.httpHeaders == null) {
-            setHttpHeaders(new ArrayList<>());
+            setHttpHeaders(new ArrayList<Header>());
         }
         this.httpHeaders.add(new Header(name,value));
     }

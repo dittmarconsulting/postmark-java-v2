@@ -16,7 +16,7 @@ public class HttpClientTest {
 
     @Test
     void execute() throws IOException, PostmarkException {
-        HttpClient client = new HttpClient(new MultivaluedHashMap<>());
+        HttpClient client = new HttpClient(new MultivaluedHashMap<String,Object>());
         HttpClient.ClientResponse response = client.execute(HttpClient.REQUEST_TYPES.GET, "https://" + Postmark.DEFAULTS.API_URL.value);
 
         assertNotNull(response.getMessage());
@@ -24,7 +24,7 @@ public class HttpClientTest {
 
     @Test
     void executeIncorrectLink() throws IOException, PostmarkException {
-        HttpClient client = new HttpClient(new MultivaluedHashMap<>());
+        HttpClient client = new HttpClient(new MultivaluedHashMap<String,Object>());
         HttpClient.ClientResponse response = client.execute(HttpClient.REQUEST_TYPES.GET, "https://" + Postmark.DEFAULTS.API_URL.value + "/someweirdlink");
 
         assertEquals(response.getCode(),404);
@@ -32,7 +32,7 @@ public class HttpClientTest {
 
     @Test
     void getClient() throws IOException, PostmarkException {
-        HttpClient client = new HttpClient(new MultivaluedHashMap<>());
+        HttpClient client = new HttpClient(new MultivaluedHashMap<String,Object>());
         assertNotNull(client.getClient());
     }
 }

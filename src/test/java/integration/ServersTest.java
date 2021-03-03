@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -21,8 +22,8 @@ public class ServersTest extends BaseTest {
     @Test
     void list() throws PostmarkException, IOException {
         Servers servers = client.getServers(Parameters.init().build("count", 5).build("offset", 0));
-        assertTrue(servers.getServers().size() > 0);
-        assertTrue(servers.getTotalCount() > 0);
+        assertEquals(true,servers.getServers().size() > 0);
+        assertEquals(true,servers.getTotalCount() > 0);
     }
 
 }

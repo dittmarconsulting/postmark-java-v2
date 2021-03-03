@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.wildbit.java.postmark.client.data.DataHandler;
 import com.wildbit.java.postmark.client.data.model.message.BaseMessageResponse;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,7 +46,12 @@ public class DataHandlerTest {
     void strictMapper() throws IOException {
         dataHandler.setStrictMapper();
         Throwable exception = assertThrows(UnrecognizedPropertyException.class,
-                ()-> dataHandler.fromJson(getStringHashMap(), BaseMessageResponse.class));
+                new Executable() {
+                    @Override
+                    public void execute() throws Throwable {
+                        dataHandler.fromJson(DataHandlerTest.this.getStringHashMap(), BaseMessageResponse.class);
+                    }
+                });
 
     }
 

@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by bash on 11/14/17.
@@ -23,7 +22,7 @@ public class DomainTest extends BaseTest {
     @Test
     void list() throws PostmarkException, IOException {
         Domains domains = client.getDomains(Parameters.init().build("count",6).build("offset",0));
-        assertTrue(domains.getDomains().size() > 0);
+        assertEquals(true, domains.getDomains().size() > 0);
     }
 
     @Test

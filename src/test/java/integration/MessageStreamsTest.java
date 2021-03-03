@@ -35,16 +35,16 @@ public class MessageStreamsTest extends BaseTest {
     void list() throws PostmarkException, IOException {
         MessageStreams messages = client.getMessageStreams(Parameters.init());
 
-        assertTrue(messages.getTotalCount() >= 2);
-        assertTrue(messages.getMessageStreams().length >= 2);
+        assertEquals(true,messages.getTotalCount() >= 2);
+        assertEquals(true,messages.getMessageStreams().length >= 2);
     }
 
     @Test
     void listWithParameter() throws PostmarkException, IOException {
         MessageStreams messages = client.getMessageStreams(Parameters.init().build("messageStreamType", "Transactional"));
 
-        assertTrue(messages.getTotalCount() >= 1);
-        assertTrue(messages.getMessageStreams().length >= 1);
+        assertEquals(true,messages.getTotalCount() >= 1);
+        assertEquals(true,messages.getMessageStreams().length >= 1);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class MessageStreamsTest extends BaseTest {
         client.setMessageStream(stream.getId(), stream);
 
         MessageStream foundStream = findMessageStream(stream.getId());
-        assertTrue(foundStream.getDescription().equalsIgnoreCase(stream.getDescription()));
+        assertEquals(true,foundStream.getDescription().equalsIgnoreCase(stream.getDescription()));
     }
 
     @Test
