@@ -3,7 +3,7 @@ package com.wildbit.java.postmark.client;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  * Helper class for creating parameters to pass to API requests. It makes sure proper format of parameters
@@ -79,7 +79,7 @@ public class Parameters {
         StringBuilder parameterString = new StringBuilder();
 
         int count = 0;
-        for (HashMap.Entry<String, String> entry : parameters.entrySet()) {
+        for (Entry<String, String> entry : parameters.entrySet()) {
             parameterString.append(count==0 ? "?" : "&");
             parameterString.append(entry.getKey());
             parameterString.append("=");
